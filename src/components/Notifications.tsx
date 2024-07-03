@@ -13,15 +13,17 @@ const icons = {
 };
 
 interface NotificationProps {
+  id: number;
   type: 'info' | 'success' | 'warning' | 'error';
   message: string;
   Close: () => void;
 }
 
-const Notifications: React.FC<NotificationProps> = ({ type, message, Close = () => {} }) => {
+const Notifications: React.FC<NotificationProps> = ({ id, type, message, Close }) => {
+  console.log(id)
   return (
-    <div className={`flex items-center justify-between text-[18px] p-2 
-    rounded shadow-md gap-2 w-fit ${type} text-white min-w-[250px]`}>
+    <div className={`flex zoomup items-center justify-between text-[18px] p-2 my-5
+    rounded shadow-md gap-2 w-fit ${type}  text-white min-w-[250px]`}>
       <div className='flex items-center gap-2'>
         {icons[type]}
         {message}
@@ -29,6 +31,6 @@ const Notifications: React.FC<NotificationProps> = ({ type, message, Close = () 
       <IoMdClose className='text-white cursor-pointer' onClick={Close} />
     </div>
   );
-}
+};
 
 export default Notifications;

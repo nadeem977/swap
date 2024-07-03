@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useCallback, useState } from "react";
 import Notifications from "../components/Notifications";
 
 interface NotificationProps {
@@ -6,29 +6,41 @@ interface NotificationProps {
   message: string;
   Close: () => void;
   duration?: number;
+  id:number;
 }
-
+interface TriggerProped {
+  type: 'info' | 'success' | 'warning' | 'error';
+  message: string;
+  Close: () => void;
+  duration?: number;
+}
 export const useNotification = (position: string) => {
-  const [notifications, setNotifications] = useState<NotificationProps | null>(null);
+  const [notifications, setNotifications] = useState<NotificationProps[]>([]);
 
-  const TriggerNotification = (notify: Omit<NotificationProps, 'Close'>) => {
-    setNotifications({
+  const TriggerNotification = useCallback((notify: Omit<TriggerProped, 'Close'>) => {
+    const id = Date.now();
+    const newNotification = {
       ...notify,
-      Close: () => setNotifications(null)
-    });
+      Close: () => setNotifications((current) => current.filter(n => n.id !== id)),
+      id,
+    };
+
+    setNotifications((current) => [...current, newNotification]);
 
     if (notify.duration) {
       setTimeout(() => {
-        setNotifications(null);
+        setNotifications((current) => current.filter(n => n.id !== id));
       }, notify.duration);
     }
-  };
+  }, []);
 
-  const NotificationContainer = notifications ? (
+  const NotificationContainer = (
     <div className={position}>
-      <Notifications {...notifications} />
+      {notifications.map((notification) => (
+        <Notifications key={notification.id} {...notification} />
+      ))}
     </div>
-  ) : null;
+  );
 
   return { NotificationContainer, TriggerNotification };
 };
