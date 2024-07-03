@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.info{
+  background-color: rgb(66, 169, 247);
+}
+.success{
+  background-color: rgb(25, 110, 25);
+}
+.error{
+  background-color: rgb(150, 42, 42);
+}
+.warning{
+  background-color: rgb(165, 165, 43);
+}
+
+.top-right{
+  position:fixed;
+  top: 20px;
+  right: 20px;
+}
+.left-bottom{
+  position:fixed;
+  left: 20px;
+  bottom: 20px;
+}
+.left-top{
+  position:fixed;
+  top: 20px;
+  left: 20px;
+}
+.right-bottom{
+  position:fixed;
+  bottom: 20px;
+  right: 20px;
+}
